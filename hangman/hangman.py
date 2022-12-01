@@ -94,24 +94,35 @@ def get_available_letters(letters_guessed):
   return available_letters
 
 
+def fails_or_no(fails):
+  if fails<=0:
+    return 'no'
+  else:
+    return fails
 
+def fail_string_apear(fails):
+  if fails<=0:
+    return ' so you lose one guess'
+  else:
+    return ''
 
 def hangman(secret_word):
   vowels = ["a", "e", "i", "o", "u"]
   attempts = 6
   fails = 3
+  fails_detect=False
   letters_guessed = list()
   secret_word_extra=list(secret_word)
   print("Welcome to the game Hangman!")
   print(f"I am thinking of a word that is {len(secret_word)} letters long.")
+  print('You have 3 warnings left.')
   print("-" * 20)
   while attempts>0 and not is_word_guessed(secret_word,letters_guessed):
-    if fails==0:
+    if fails<=0 and fails_detect:
       attempts-=1
-      fails=3
+    fails_detect=False
     print(f"You have {attempts} guesses left.")
     string_guessed=get_guessed_word(secret_word, letters_guessed)
-    string_fails=(f"You have {fails} warnings left:")
     print(f"Available letters: {get_available_letters(letters_guessed)}")
     letter=input("Please guess a letter: ")
     if letter.isalpha():
@@ -132,15 +143,21 @@ def hangman(secret_word):
             print("-" * 20)
         else:
           fails-=1
-          print(f"Oops! You have already guessed that letter. You now have {fails} warnings: {string_guessed}")
+          fails_detect=True
+          string3=(f"Oops! You have already guessed that letter. You now have {fails_or_no(fails)} warnings left{fail_string_apear(fails)}: {string_guessed}")
+          print(string3)
           print("-" * 20)
       else:
         fails-=1
-        print(f'Oops! That is not a valid letter. You have {fails} warnings left: {string_guessed}')
+        fails_detect=True
+        string2=(f'Oops! That is not a valid letter. You have {fails_or_no(fails)} warnings left{fail_string_apear(fails)}: {string_guessed}')
+        print(string2)
         print("-" * 20)
     else:
       fails-=1
-      print(f'Oops! That is not a valid letter. You have {fails} warnings left: {string_guessed}')
+      fails_detect=True
+      string1=(f'Oops! That is not a valid letter. You have {fails_or_no(fails)} warnings left{fail_string_apear(fails)}: {string_guessed}')
+      print(string1)
       print("-" * 20)
   if is_word_guessed(secret_word,letters_guessed):
     total_score=attempts*len(set(secret_word))
@@ -148,7 +165,7 @@ def hangman(secret_word):
     print(f"Your total score for this game is: {total_score}")
   else:
     print("Sorry, you ran out of guesses. ",end='')
-    print(f"Secret word: {secret_word}")
+    print(f"Secret word was {secret_word}")
 
 
 
@@ -187,22 +204,24 @@ def show_possible_matches(my_word):
 
 
 
+
 def hangman_with_hints(secret_word):
   vowels = ["a", "e", "i", "o", "u"]
   attempts = 6
   fails = 3
+  fails_detect=False
   letters_guessed = list()
   secret_word_extra=list(secret_word)
   print("Welcome to the game Hangman!")
   print(f"I am thinking of a word that is {len(secret_word)} letters long.")
+  print('You have 3 warnings left.')
   print("-" * 20)
   while attempts>0 and not is_word_guessed(secret_word,letters_guessed):
-    if fails==0:
+    if fails<=0 and fails_detect:
       attempts-=1
-      fails=3
+    fails_detect=False
     print(f"You have {attempts} guesses left.")
     string_guessed=get_guessed_word(secret_word, letters_guessed)
-    string_fails=(f"You have {fails} warnings left:")
     print(f"Available letters: {get_available_letters(letters_guessed)}")
     letter=input("Please guess a letter: ")
     if letter=='*':
@@ -229,15 +248,21 @@ def hangman_with_hints(secret_word):
               print("-" * 20)
           else:
             fails-=1
-            print(f"Oops! You have already guessed that letter. You now have {fails} warnings: {string_guessed}")
+            fails_detect=True
+            string3=(f"Oops! You have already guessed that letter. You now have {fails_or_no(fails)} warnings left{fail_string_apear(fails)}: {string_guessed}")
+            print(string3)
             print("-" * 20)
         else:
           fails-=1
-          print(f'Oops! That is not a valid letter. You have {fails} warnings left: {string_guessed}')
+          fails_detect=True
+          string2=(f'Oops! That is not a valid letter. You have {fails_or_no(fails)} warnings left{fail_string_apear(fails)}: {string_guessed}')
+          print(string2)
           print("-" * 20)
       else:
         fails-=1
-        print(f'Oops! That is not a valid letter. You have {fails} warnings left: {string_guessed}')
+        fails_detect=True
+        string1=(f'Oops! That is not a valid letter. You have {fails_or_no(fails)} warnings left{fail_string_apear(fails)}: {string_guessed}')
+        print(string1)
         print("-" * 20)
   if is_word_guessed(secret_word,letters_guessed):
     total_score=attempts*len(set(secret_word))
