@@ -121,6 +121,8 @@ def hangman(secret_word):
     if fails<=0 and fails_detect:
       attempts-=1
     fails_detect=False
+    if attempts==0:
+      break
     print(f"You have {attempts} guesses left.")
     string_guessed=get_guessed_word(secret_word, letters_guessed)
     print(f"Available letters: {get_available_letters(letters_guessed)}")
@@ -220,6 +222,8 @@ def hangman_with_hints(secret_word):
     if fails<=0 and fails_detect:
       attempts-=1
     fails_detect=False
+    if attempts==0:
+        break
     print(f"You have {attempts} guesses left.")
     string_guessed=get_guessed_word(secret_word, letters_guessed)
     print(f"Available letters: {get_available_letters(letters_guessed)}")
